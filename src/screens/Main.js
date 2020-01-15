@@ -1,8 +1,18 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View, Image} from 'react-native';
 
-export default () => (
-  <View>
-    <Text>Logado!</Text>
-  </View>
-);
+import logo from '../assets/images/logo.png';
+
+export default () => {
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#f5f5f5',
+      }}>
+      <Image source={logo} />
+    </View>
+  );
+};
