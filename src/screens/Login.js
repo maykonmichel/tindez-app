@@ -10,13 +10,18 @@ import {
 
 import logo from '../assets/images/logo.png';
 
-export default ({navigation: {navigate}}) => {
-  const [user, setUser] = useState('');
+import api from '../store/api';
 
-  const onSubmit = useCallback(() => {
-    // TODO try to authenticate
-    navigate('main');
-  }, [navigate]);
+export default ({navigation: {navigate}}) => {
+  const [username, setUsername] = useState('');
+
+  const onSubmit = useCallback(async () => {
+    const {
+      data: {_id: user},
+    } = await api.post('/devs', {username});
+
+    navigate('main', {user});
+  }, [navigate, username]);
 
   return (
     <View style={styles.container}>
@@ -25,8 +30,8 @@ export default ({navigation: {navigate}}) => {
       <TextInput
         autoCapitalize="none"
         placeholder="Digite seu usuário no Github"
-        value={user}
-        onChangeText={setUser}
+        value={username}
+        onChangeText={setUsername}
         style={styles.username}
       />
 
