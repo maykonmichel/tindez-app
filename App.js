@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, TextInput, View} from 'react-native';
+import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 import logo from './src/assets/images/logo.png';
 
@@ -28,5 +28,25 @@ export default () => (
         borderRadius: 4,
       }}
     />
+
+    <TouchableOpacity
+      style={{
+        marginTop: 10,
+        height: 45,
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#DF4723',
+        borderRadius: 4,
+      }}>
+      <Text
+        style={{
+          color: '#ffffff',
+          fontWeight: 'bold',
+          fontSize: 16,
+        }}>
+        Enviar
+      </Text>
+    </TouchableOpacity>
   </View>
 );
