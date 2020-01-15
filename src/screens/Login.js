@@ -17,10 +17,10 @@ export default ({navigation: {navigate}}) => {
 
   const onSubmit = useCallback(async () => {
     const {
-      data: {_id: user},
+      data: {_id: id},
     } = await api.post('/devs', {username});
 
-    navigate('main', {user});
+    navigate('main', {id});
   }, [navigate, username]);
 
   return (
