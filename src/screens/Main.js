@@ -26,9 +26,23 @@ export default ({navigation: {getParam, navigate}}) => {
 
   const onLogout = useCallback(() => navigate('login'), [navigate]);
 
-  const onEvaluate = useCallback(() => {
-    setUsers(users.splice(1));
-  }, [users]);
+  const onEvaluate = useCallback(
+    async evaluation => {
+      const [{_id}, ...rest] = users;
+
+      await api.post(`/devs/${_id}/${evaluation}`, null, {
+        headers: {
+          user: id,
+        },
+      });
+
+      setUsers(rest);
+    },
+    [id, users],
+  );
+
+  const onDislike = useCallback(() => onEvaluate('dislikes'), [onEvaluate]);
+  const onLike = useCallback(() => onEvaluate('likes'), [onEvaluate]);
 
   useEffect(() => {
     loadUsers(id);
@@ -51,10 +65,10 @@ export default ({navigation: {getParam, navigate}}) => {
       </View>
 
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.button} onPress={onEvaluate}>
+        <TouchableOpacity style={styles.button} onPress={onDislike}>
           <Image source={dislike} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={onEvaluate}>
+        <TouchableOpacity style={styles.button} onPress={onLike}>
           <Image source={like} />
         </TouchableOpacity>
       </View>
