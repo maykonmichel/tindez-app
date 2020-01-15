@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import logo from '../assets/images/logo.png';
@@ -12,6 +12,8 @@ export default ({navigation: {getParam, navigate}}) => {
 
   const [users, setUsers] = useState([]);
 
+  const {avatar: uri, name, bio} = useMemo(() => users[0] || {}, [users]);
+
   const loadUsers = useCallback(async user => {
     const {data} = await api.get('/devs', {
       headers: {
@@ -24,6 +26,10 @@ export default ({navigation: {getParam, navigate}}) => {
 
   const onLogout = useCallback(() => navigate('login'), [navigate]);
 
+  const onEvaluate = useCallback(() => {
+    setUsers(users.splice(1));
+  }, [users]);
+
   useEffect(() => {
     loadUsers(id);
   }, [id, loadUsers]);
@@ -35,20 +41,20 @@ export default ({navigation: {getParam, navigate}}) => {
       </TouchableOpacity>
 
       <View style={styles.card}>
-        <Image style={styles.avatar} source={null} />
+        <Image style={styles.avatar} source={{uri}} />
         <View style={styles.description}>
-          <Text style={styles.name}>Maykon Michel</Text>
+          <Text style={styles.name}>{name}</Text>
           <Text style={styles.bio} numberOfLines={3}>
-            ez.developer
+            {bio}
           </Text>
         </View>
       </View>
 
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onEvaluate}>
           <Image source={dislike} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onEvaluate}>
           <Image source={like} />
         </TouchableOpacity>
       </View>
